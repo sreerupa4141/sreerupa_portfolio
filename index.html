@@ -1,94 +1,1079 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sree Rupa | Engineer • Leader • Innovator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <title>Sree Rupa | ECE Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0f172a;
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0a0f1d;
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --accent: #7f00ff;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-glow: rgba(0, 242, 254, 0.1);
         }
-        /* Custom Scrollbar */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND PARTICLES --- */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- CUSTOM CURSOR --- */
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        .custom-cursor-dot {
+            width: 4px;
+            height: 4px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* --- SCROLLBAR --- */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #0f172a;
+            background: var(--bg-color);
         }
         ::-webkit-scrollbar-thumb {
-            background: #3b82f6;
+            background: linear-gradient(var(--primary), var(--accent));
             border-radius: 4px;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a855f7;
+
+        /* --- UTILITIES & REUSABLE CLASSES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
-        /* Glassmorphism utility */
+
+        section {
+            padding: 100px 0 60px 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
         .glass-card {
-            background: rgba(30, 41, 59, 0.4);
+            background: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s ease;
         }
-        /* Custom Glow Animations */
-        .glow-hover {
+
+        .glass-card:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            box-shadow: 0 10px 30px var(--glass-glow);
+            transform: translateY(-5px);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
-        .glow-hover:hover {
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
-            border-color: rgba(168, 85, 247, 0.4);
-            transform: translateY(-4px);
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            border: none;
         }
-        /* Custom Cursor for non-touch devices */
-        @media (min-width: 1024px) {
-            .custom-cursor {
-                width: 20px;
-                height: 20px;
-                border: 2px solid #3b82f6;
-                border-radius: 50%;
-                position: fixed;
-                transform: translate(-50%, -50%);
-                pointer-events: none;
-                z-index: 9999;
-                transition: width 0.2s, height 0.2s, background-color 0.2s;
+
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+            transform: scale(1.05);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-main);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 242, 254, 0.1);
+            box-shadow: 0 0 20px var(--glass-glow);
+        }
+
+        /* --- ANIMATION CLASS FOR JS REVEAL --- */
+        .reveal {
+            position: relative;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* --- NAVBAR --- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 15, 29, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .menu-btn {
+            display: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- HERO SECTION --- */
+        #hero {
+            position: relative;
+            padding-top: 120px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .hero-content h2 {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            height: 40px;
+        }
+
+        .typing-text {
+            color: var(--primary);
+            border-right: 2px solid var(--primary);
+            animation: blink 0.7s infinite;
+            white-space: nowrap;
+        }
+
+        .hero-p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .hero-img-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-img-wrapper {
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            padding: 6px;
+            box-shadow: 0 0 40px rgba(0, 242, 254, 0.3);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-img-placeholder {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .hero-img-placeholder i {
+            font-size: 4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        /* --- ABOUT ME --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        .about-highlight {
+            color: var(--text-main);
+            border-left: 4px solid var(--primary);
+            padding-left: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        /* --- SKILLS --- */
+        .skills-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .skills-column h3 {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .skill-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0; /* Dynamic loading via JS */
+            border-radius: 4px;
+            transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+
+        /* --- EDUCATION --- */
+        .timeline {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: var(--glass-border);
+        }
+
+        .timeline-item {
+            width: 50%;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+            padding-right: 3rem;
+            text-align: right;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            padding-left: 3rem;
+        }
+
+        .timeline-dot {
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            top: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px var(--primary);
+            z-index: 2;
+        }
+
+        .timeline-date {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .coursework-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            justify-content: flex-start;
+        }
+
+        .timeline-item:nth-child(odd) .coursework-tags {
+            justify-content: flex-end;
+        }
+
+        .tag {
+            background: rgba(0, 242, 254, 0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        /* --- PROJECTS --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-btn {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .project-btn:hover {
+            color: var(--secondary);
+        }
+
+        /* --- ACHIEVEMENTS & EXPERIENCE --- */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .archive-list {
+            list-style: none;
+        }
+
+        .archive-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+        }
+
+        .archive-list i {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-top: 4px;
+        }
+
+        .archive-list h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .archive-list p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* --- WHY HIRE ME --- */
+        .hire-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .hire-card {
+            text-align: center;
+        }
+
+        .hire-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 242, 254, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem auto;
+            border: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        .hire-icon i {
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .hire-card h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .hire-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* --- CONTACT --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 0.8fr 1.2fr;
+            gap: 3rem;
+        }
+
+        .contact-info-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-item .icon-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .contact-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+
+        .contact-item h4 {
+            font-size: 1.05rem;
+            color: var(--text-main);
+        }
+
+        .social-networks {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            color: #000;
+            background: var(--primary);
+            box-shadow: 0 0 15px var(--primary);
+            transform: scale(1.1);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.1);
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: none;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 0;
+            background: rgba(5, 9, 20, 0.8);
+            text-align: center;
+        }
+
+        .footer-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- BACK TO TOP BUTTON --- */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- KEYFRAMES --- */
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* --- RESPONSIVE MEDIA QUERIES --- */
+        @media (max-width: 992px) {
+            .hero-grid, .skills-container, .split-grid, .contact-grid {
+                grid-template-columns: 1fr;
             }
-            .custom-cursor-dot {
-                width: 4px;
-                height: 4px;
-                background-color: #a855f7;
-                border-radius: 50%;
-                position: fixed;
-                transform: translate(-50%, -50%);
-                pointer-events: none;
-                z-index: 9999;
+            .hero-grid {
+                text-align: center;
+                gap: 3rem;
+            }
+            .hero-btns {
+                justify-content: center;
+            }
+            .hero-p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item {
+                width: 100%;
+                left: 0 !important;
+                padding-left: 50px !important;
+                padding-right: 0 !important;
+                text-align: left !important;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+            .timeline-item:nth-child(odd) .coursework-tags {
+                justify-content: flex-start;
+            }
+            .contact-info-wrapper {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-color);
+                border-bottom: 1px solid var(--glass-border);
+                padding: 2rem;
+                gap: 1.5rem;
+                text-align: center;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            .hero-content h3 {
+                font-size: 1.4rem;
+            }
+            .custom-cursor, .custom-cursor-dot {
+                display: none; /* Turn off complex micro-interactions on compact touch surfaces */
             }
         }
     </style>
 </head>
-<body class="text-slate-200 overflow-x-hidden antialiased" x-data="{ mobileMenu: false }">
+<body>
 
-    <div id="cursor" class="custom-cursor hidden lg:block"></div>
-    <div id="cursor-dot" class="custom-cursor-dot hidden lg:block"></div>
+    <canvas id="bg-canvas"></canvas>
 
-    <div class="fixed inset-0 -z-10 overflow-hidden">
-        <div class="absolute top-[-10%] left-[-10%] w-[50rem] height-[50rem] rounded-full bg-blue-900/20 blur-[120px]"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-[50rem] height-[50rem] rounded-full bg-purple-900/20 blur-[120px]"></div>
-    </div>
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-dot" id="cursor-dot"></div>
 
-    <header class="sticky top-0 z-50 w-full glass-card border-b border-slate-800">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <a href="#" class="text-xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
-                SREE RUPA
-            </a>
-            
-            <nav class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
-                <a href="#about" class="hover:text-blue-400 transition">About</a>
-                <a href="#skills" class="hover:text-blue-400 transition">Skills</a>
-                <a href="#
+    <nav>
+        <div class="container nav-container">
+            <a href="#" class="logo">SR.</a>
+            <ul class="nav-links" id="nav-menu">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="menu-btn" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <h2>Welcome to my Space</h2>
+                <h1>Hi, I'm Sree Rupa</h1>
+                <h3>I am a <span class="typing-text"></span></h3>
+                <p class="hero-p">A final year Electronics and Communication Engineering undergraduate pairing deep technical hardware architecture insights with modern programmatic problem-solving capabilities.</p>
+                <div class="hero-btns">
+                    <a href="#contact" class="btn btn-primary">Contact Me <i class="fas fa-paper-plane"></i></a>
+                    <a href="#" class="btn btn-secondary">Download Resume <i class="fas fa-download"></i></a>
+                </div>
+            </div>
+            <div class="hero-img-container">
+                <div class="hero-img-wrapper">
+                    <div class="hero-img-placeholder">
+                        <i class="fas fa-user-astronaut"></i>
+                        <span>Sree Rupa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="reveal">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="glass-card about-content">
+                <p class="about-highlight">"Synthesizing logical electronic system topologies with collaborative leadership vectors to construct future-facing engineering architectures."</p>
+                <p>I am an ambitious Electronics and Communication Engineering (ECE) final year student with a deep fascination for technological intersections. My engineering training empowers me with concrete core analytical methodologies, while my intrinsic affinity for coding helps me orchestrate systemic hardware-software integration effectively.</p>
+                <p>Characterized by a vibrant, hyperactive approach to real-world challenges, I balance computational technical mechanics with dynamic human-centric skills. I operate effectively across complex development pipelines, translating technical milestones into cohesive operations while steering team collaboration through agile structures.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="reveal">
+        <div class="container">
+            <h2 class="section-title">Skill Matrix</h2>
+            <div class="skills-container">
+                <div class="glass-card skills-column">
+                    <h3><i class="fas fa-code"></i> Technical Domain</h3>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Embedded Systems & IoT</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>C / Python / Java Programming</span><span>85%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="85%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Digital Electronics & VLSI</span><span>80%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Communication Systems & DSP</span><span>75%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="75%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Web Fundamentals (HTML/CSS/JS)</span><span>80%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="80%"></div></div>
+                    </div>
+                </div>
+                <div class="glass-card skills-column">
+                    <h3><i class="fas fa-users"></i> Executive Domain</h3>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Strategic Communication</span><span>95%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Operations & Project Management</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Team Leadership & Collaboration</span><span>92%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="92%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Public Speaking</span><span>88%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="88%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="skill-info"><span>Adaptive Problem Solving</span><span>90%</span></div>
+                        <div class="skill-bar"><div class="skill-progress" data-width="90%"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education" class="reveal">
+        <div class="container">
+            <h2 class="section-title">Education</h2>
+            <div class="timeline">
+                <div class="timeline-item glass-card">
+                    <div class="timeline-dot"></div>
+                    <span class="timeline-date">2022 - 2026 (Expected)</span>
+                    <h3>Bachelor of Technology</h3>
+                    <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Electronics and Communication Engineering</h4>
+                    <p>Actively engaged in advanced underlying theoretical physics, signaling matrices, computational hardware logic, and macro-engineering models.</p>
+                    <div class="coursework-tags">
+                        <span class="tag">Digital Communication</span>
+                        <span class="tag">Microprocessors</span>
+                        <span class="tag">VLSI</span>
+                        <span class="tag">Embedded Systems</span>
+                        <span class="tag">Wireless Networks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="reveal">
+        <div class="container">
+            <h2 class="section-title">Projects Portfolio</h2>
+            <div class="projects-grid">
+                <div class="glass-card project-card">
+                    <h4>Smart Home Automation System</h4>
+                    <p>Designed an intelligent structural infrastructure network incorporating microcontrollers to intelligently monitor environmental data and coordinate appliances via remote interfaces.</p>
+                    <p style="font-size: 0.8rem; color: var(--primary);">Technologies: Arduino, Sensors, Bluetooth, Android API</p>
+                    <div class="project-links">
+                        <a href="#" class="project-btn">Explore Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="glass-card project-card">
+                    <h4>IoT Based Monitoring System</h4>
+                    <p>Constructed an end-to-end cloud connected processing array designed to stream metrics real-time over remote channels with threshold anomaly notification features.</p>
+                    <p style="font-size: 0.8rem; color: var(--primary);">Technologies: NodeMCU, ESP8266, Thingspeak Cloud, MQTT</p>
+                    <div class="project-links">
+                        <a href="#" class="project-btn">Explore Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="glass-card project-card">
+                    <h4>Wireless Communication Link</h4>
+                    <p>Engineered and executed an experimental physical RF transceiver sub-assembly evaluating spatial attenuation, modulation performance indices, and computational signal processing.</p>
+                    <p style="font-size: 0.8rem; color: var(--primary);">Technologies: MATLAB, RF Transceivers, Circuit Design</p>
+                    <div class="project-links">
+                        <a href="#" class="project-btn">Explore Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="glass-card project-card">
+                    <h4>Student Management Application</h4>
+                    <p>Built a structured data processing utility leveraging object-oriented software logic to optimize storage mechanisms, lookups, and administrative records pipelines.</p>
+                    <p style="font-size: 0.8rem; color: var(--primary);">Technologies: Python, OOP Design, SQLite Database</p>
+                    <div class="project-links">
+                        <a href="#" class="project-btn">Explore Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="glass-card project-card">
+                    <h4>Embedded Systems Mini Project</h4>
+                    <p>Engineered a compact runtime environment tracking system alerts utilizing physical state machines and register-level execution mechanics.</p>
+                    <p style="font-size: 0.8rem; color: var(--primary);">Technologies: C Programming, 8051 Architecture, Keil IDE</p>
+                    <div class="project-links">
+                        <a href="#" class="project-btn">Explore Code <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="reveal">
+        <div class="container split-grid">
+            <div class="glass-card">
+                <h3 style="font-size: 1.5rem; color: var(--primary); margin-bottom: 2rem;"><i class="fas fa-trophy"></i> Key Achievements</h3>
+                <ul class="archive-list">
+                    <li>
+                        <i class="fas fa-award"></i>
+                        <div>
+                            <h4>Communication Excellence Citation</h4>
+                            <p>Recognized uniformly across institutional speech tournaments and external debates for authoritative articulation.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-calendar-check"></i>
+                        <div>
+                            <h4>Event Coordination Milestone</h4>
+                            <p>Successfully managed end-to-end logistics and structural execution schedules for major college technical festivals.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-users-cog"></i>
+                        <div>
+                            <h4>Team Leadership Core</h4>
+                            <p>Spearheaded multi-disciplinary project sprints, aligning technical development timelines with milestone targets.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="glass-card">
+                <h3 style="font-size: 1.5rem; color: var(--secondary); margin-bottom: 2rem;"><i class="fas fa-atom"></i> Activities & Engagement</h3>
+                <ul class="archive-list">
+                    <li>
+                        <i class="fas fa-tools"></i>
+                        <div>
+                            <h4>Technical Workshops & Seminars</h4>
+                            <p>Participated in continuous technical training tracks evaluating deep Edge Computing, VLSI layouts, and advanced analytical software structures.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-handshake"></i>
+                        <div>
+                            <h4>Technical Club Leadership</h4>
+                            <p>Active core executive manager in the college electronics association, structuring peer-to-peer mentoring and conceptual coding labs.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <i class="fas fa-network-wired"></i>
+                        <div>
+                            <h4>College Event Operations</h4>
+                            <p>Spearheaded community tech-outreach initiatives, managing high-stakes intercollegiate presentation frameworks.</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-hire" class="reveal">
+        <div class="container">
+            <h2 class="section-title">Why Hire Me?</h2>
+            <div class="hire-grid">
+                <div class="glass-card hire-card">
+                    <div class="hire-icon"><i class="fas fa-comments"></i></div>
+                    <h4>Strong Communication</h4>
+                    <p>Articulates nuanced architecture logic cleanly to cross-functional engineering branches and business key holders seamlessly.</p>
+                </div>
+                <div class="glass-card hire-card">
+                    <div class="hire-icon"><i class="fas fa-microchip"></i></div>
+                    <h4>Technical Expertise</h4>
+                    <p>Grounded in core signal physics, logic circuitry foundations, and modular programming structures.</p>
+                </div>
+                <div class="glass-card hire-card">
+                    <div class="hire-icon"><i class="fas fa-crown"></i></div>
+                    <h4>Leadership Velocity</h4>
+                    <p>Highly energetic, proactive driver equipped to align multi-disciplinary project scopes toward explicit goals.</p>
+                </div>
+                <div class="glass-card hire-card">
+                    <div class="
